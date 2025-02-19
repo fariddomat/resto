@@ -98,6 +98,20 @@ return [
     'sale_categories' =>'Sale Categories',
     'sale_items' =>'Sale Items',
     'sales' =>'Sales',
-    'cancel' => 'Cancel'
+    'cancel' => 'Cancel',
+    'total_price' => 'Total Price',
+    'saleItem.name' => 'Item',
+    'purchaseItem.name' => 'Item',
+    'sale_item' => 'Item',
+    'purchase_item' => 'Item',
+    'purchase_date' => 'Purchase Date',
+    'sale_date' => 'Sale Date',
+    'is_taxable' => 'Is Taxable',
+    'tax_rate' => 'Tax Rate',
+    'actions' => 'Actions',
+    'yes' => 'Yes',
+    'no' => 'No',
+    'add_more' => 'Add More',
+    'select_item' => 'Select Item',
 
 ];

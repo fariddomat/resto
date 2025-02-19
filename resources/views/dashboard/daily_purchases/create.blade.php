@@ -1,7 +1,7 @@
 <x-app-layout>
-    <div class="container mx-auto p-6">
+    <div class="container mx-0 p-0 md:p-6">
         <h1 class="text-2xl font-bold mb-4">
-            @lang('site.create') @lang('site.daily_purchase')
+            @lang('site.create') @lang('site.purchase')
         </h1>
 
         <div id="success-message" class="hidden bg-green-500 text-white p-2 mb-4 rounded"></div>
@@ -15,21 +15,23 @@
                 <span id="purchase_date_error" class="text-red-500 text-sm"></span>
             </div>
 
-            <table class="w-full border-collapse border border-gray-300 mb-4">
-                <thead>
-                    <tr class="bg-gray-100">
-                        <th class="border p-2">@lang('site.purchase_item')</th>
-                        <th class="border p-2">@lang('site.quantity')</th>
-                        <th class="border p-2">@lang('site.total_price')</th>
-                        <th class="border p-2">@lang('site.is_taxable')</th>
-                        <th class="border p-2">@lang('site.tax_rate')</th>
-                        <th class="border p-2">@lang('site.actions')</th>
-                    </tr>
-                </thead>
-                <tbody id="purchase-rows">
-                    <!-- سيتم إضافة الصفوف هنا -->
-                </tbody>
-            </table>
+            <div class="overflow-x-auto">
+                <table class="min-w-full border-collapse border border-gray-300 mb-4">
+                    <thead>
+                        <tr class="bg-gray-100">
+                            <th class="border p-2">@lang('site.purchase_item')</th>
+                            <th class="border p-2">@lang('site.quantity')</th>
+                            <th class="border p-2">@lang('site.total_price')</th>
+                            <th class="border p-2">@lang('site.is_taxable')</th>
+                            <th class="border p-2">@lang('site.tax_rate')</th>
+                            <th class="border p-2">@lang('site.actions')</th>
+                        </tr>
+                    </thead>
+                    <tbody id="purchase-rows">
+                        <!-- سيتم إضافة الصفوف هنا -->
+                    </tbody>
+                </table>
+            </div>
 
             <button type="button" id="add-row" class="bg-blue-500 text-white px-4 py-2 rounded shadow hover:bg-blue-700">
                 + @lang('site.add_more')

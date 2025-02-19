@@ -34,7 +34,8 @@
                     <td class="px-4 py-2 border border-gray-300 md:hidden"
                         @click="expanded = !expanded">
                         <div class=" flex justify-between items-center cursor-pointer">
-                        <span>{{ is_object($row) ? $row->{$columns[0]} : $row[$columns[0]] ?? '—' }}</span>
+                        <span>
+                            {{ is_object($row) ? data_get($row, $columns[0], '—') : ($row[$columns[0]] ?? '—') }}</span>
                         <button class="text-blue-500">
                             <i class="fas fa-chevron-down" x-show="!expanded"></i>
                             <i class="fas fa-chevron-up" x-show="expanded"></i>
@@ -44,8 +45,8 @@
                         class="flex-row p-4 bg-gray-100 border border-gray-300 mt-3" x-show="expanded">
                         @foreach ($columns as $col)
                             <div class="flex justify-between py-1">
-                                <strong>{{ ucfirst(str_replace('_', ' ', $col)) }}:</strong>
-                                <span>{{ is_object($row) ? $row->$col : $row[$col] ?? '—' }}</span>
+                                <strong>@lang('site.'.$col) :</strong>
+                                <span>{{ is_object($row) ? data_get($row, $col, '—') : ($row[$col] ?? '—') }}</span>
                             </div>
                         @endforeach
 
@@ -83,7 +84,7 @@
                         <!-- Normal Columns (Hidden on Mobile) -->
                         @foreach ($columns as $index => $col)
                             <td class="px-4 py-2 border border-gray-300  hidden md:table-cell">
-                                {{ is_object($row) ? $row->$col : $row[$col] ?? '—' }}
+                                {{ is_object($row) ? data_get($row, $col, '—') : ($row[$col] ?? '—') }}
                             </td>
                         @endforeach
 

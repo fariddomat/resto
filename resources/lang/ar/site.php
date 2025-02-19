@@ -219,6 +219,22 @@ return [
     'sale_categories' =>'تصنيفات المبيعات',
     'sale_items' =>'عناصر المبيعات',
     'sales' =>'المبيعات',
-    'cancel' => 'إلغاء'
+    'cancel' => 'إلغاء',
+    'total_price' => 'المبلغ الإجمالي',
+    'saleItem.name' => 'المنتج',
+    'purchaseItem.name' => 'المنتج',
+
+    'sale_item' => 'المنتج',
+    'purchase_item' => 'المنتج',
+    'purchase_date' => 'تاريخ الشراء',
+    'sale_date' => 'تاريخ المبيع',
+    'is_taxable' => 'ضريبة؟',
+    'tax_rate' => 'معدل الضريبة',
+    'actions' => 'العمليات',
+
+    'yes' => 'نعم',
+    'no' => 'لا',
+    'add_more' => 'أضف المزيد',
+    'select_item' => 'اختر عنصر',
 
 ];

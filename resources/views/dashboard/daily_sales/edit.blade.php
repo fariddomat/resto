@@ -2,7 +2,7 @@
     <div class="container mx-auto p-6">
 
         <h1 class="text-2xl font-bold mb-4">
-            @lang('site.edit') @lang('site.daily_sale')
+            @lang('site.edit') @lang('site.sales')
         </h1>
 
         @if (session()->has('success'))
