@@ -23,9 +23,10 @@
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     @livewireStyles
     <style>
-         html[dir="rtl"] th{
+        html[dir="rtl"] th {
             text-align: right;
-         }
+        }
+
         @media (max-width: 768px) {
             html[dir="rtl"] .main-b {
                 margin-left: 0 !important;
@@ -68,51 +69,75 @@
             :class="open ? 'translate-x-0' : '-translate-x-64 md:translate-x-0'">
             <h2 class="text-xl font-bold mb-4">@lang('site.dashboard')</h2>
 
-            <nav class="mt-5 space-y-3 ">
+            <nav class="mt-5 space-y-3">
                 <x-responsive-nav-link href="{{ route('dashboard') }}" :active="request()->routeIs('dashboard')">
                     @lang('site.home') <i class="fas fa-home"></i>
                 </x-responsive-nav-link>
+
                 <x-responsive-nav-link href="{{ route('dashboard.users.index') }}" :active="Str::startsWith(request()->route()->getName(), 'dashboard.users.')">
-                   @lang('site.users') <i class="fas fa-users"></i>
+                    @lang('site.users') <i class="fas fa-users"></i>
                 </x-responsive-nav-link>
 
-                {{-- <x-responsive-nav-link href="{{ route('dashboard.blogcategories.index') }}" :active="Str::startsWith(request()->route()->getName(), 'dashboard.blogcategories.')">
-                    @lang('site.categories') <i class="fas fa-list-alt"></i>
-                </x-responsive-nav-link>
+                {{-- Purchases Dropdown --}}
+                @php
+                    $isPurchaseActive = Str::startsWith(request()->route()->getName(), [
+                        'dashboard.purchase_categories.',
+                        'dashboard.purchase_items.',
+                        'dashboard.daily_purchases.'
+                    ]);
+                @endphp
+                <details class="group" {{ $isPurchaseActive ? 'open' : '' }}>
+                    <summary class="{{ $isPurchaseActive ? 'block w-full ps-4 pe-4 py-2 border-l-4 border-white shadow-md text-start text-base font-medium text-white bg-blue-800 dark:bg-blue-800 rounded-md transition duration-200 ease-in-out flex justify-between items-center' : 'cursor-pointer block w-full ps-4 pe-4 py-2 rounded-lg border border-white/20 shadow-md shadow-gray-800/50 transition-all duration-200 hover:bg-gray-700 active:bg-gray-600 border-l-4 border-transparent text-start text-base font-medium text-gray-300 rounded-md transition duration-200 ease-in-out flex justify-between items-center' }}">
+                        @lang('site.purchase') <i class="fas fa-shopping-cart"></i>
+                    </summary>
+                    <div class="pl-6 space-y-2 py-2">
+                        <x-responsive-nav-link href="{{ route('dashboard.purchase_categories.index') }}" :active="Str::startsWith(request()->route()->getName(), 'dashboard.purchase_categories.')">
+                            @lang('site.purchasecategories') <i class="fas fa-list-alt"></i>
+                        </x-responsive-nav-link>
 
-                <x-responsive-nav-link href="{{ route('dashboard.blogs.index') }}" :active="Str::startsWith(request()->route()->getName(), 'dashboard.blogs.')">
-                     @lang('site.blogs') <i class="fas fa-newspaper"></i>
-                </x-responsive-nav-link> --}}
-                {{-- purchase --}}
-                <x-responsive-nav-link href="{{ route('dashboard.purchase_categories.index') }}" :active="Str::startsWith(request()->route()->getName(), 'dashboard.purchase_categories.')">
-                     @lang('site.purchasecategories') <i class="fas fa-list-alt"></i>
-                </x-responsive-nav-link>
+                        <x-responsive-nav-link href="{{ route('dashboard.purchase_items.index') }}" :active="Str::startsWith(request()->route()->getName(), 'dashboard.purchase_items.')">
+                            @lang('site.purchaseitems') <i class="fas fa-box"></i>
+                        </x-responsive-nav-link>
 
-                <x-responsive-nav-link href="{{ route('dashboard.purchase_items.index') }}" :active="Str::startsWith(request()->route()->getName(), 'dashboard.purchase_items.')">
-                     @lang('site.purchaseitems') <i class="fas fa-newspaper"></i>
-                </x-responsive-nav-link>
+                        <x-responsive-nav-link href="{{ route('dashboard.daily_purchases.index') }}" :active="Str::startsWith(request()->route()->getName(), 'dashboard.daily_purchases.')">
+                            @lang('site.purchase') <i class="fas fa-file-invoice-dollar"></i>
+                        </x-responsive-nav-link>
+                    </div>
+                </details>
 
-                <x-responsive-nav-link href="{{ route('dashboard.daily_purchases.index') }}" :active="Str::startsWith(request()->route()->getName(), 'dashboard.daily_purchases.')">
-                    @lang('site.purchase') <i class="fas fa-newspaper"></i>
-               </x-responsive-nav-link>
+                {{-- Sales Dropdown --}}
+                @php
+                    $isSalesActive = Str::startsWith(request()->route()->getName(), [
+                        'dashboard.sale_categories.',
+                        'dashboard.sale_items.',
+                        'dashboard.daily_sales.'
+                    ]);
+                @endphp
+                <details class="group" {{ $isSalesActive ? 'open' : '' }}>
+                    <summary class="{{ $isSalesActive ? 'block w-full ps-4 pe-4 py-2 border-l-4 border-white shadow-md text-start text-base font-medium text-white bg-blue-800 dark:bg-blue-800 rounded-md transition duration-200 ease-in-out flex justify-between items-center' : 'cursor-pointer block w-full ps-4 pe-4 py-2 rounded-lg border border-white/20 shadow-md shadow-gray-800/50 transition-all duration-200 hover:bg-gray-700 active:bg-gray-600 border-l-4 border-transparent text-start text-base font-medium text-gray-300 rounded-md transition duration-200 ease-in-out flex justify-between items-center' }}">
+                        @lang('site.sales') <i class="fas fa-chart-line"></i>
+                    </summary>
+                    <div class="pl-6 space-y-2 py-2">
+                        <x-responsive-nav-link href="{{ route('dashboard.sale_categories.index') }}" :active="Str::startsWith(request()->route()->getName(), 'dashboard.sale_categories.')">
+                            @lang('site.sale_categories') <i class="fas fa-list-alt"></i>
+                        </x-responsive-nav-link>
 
-               {{-- Sales --}}
-               <x-responsive-nav-link href="{{ route('dashboard.sale_categories.index') }}" :active="Str::startsWith(request()->route()->getName(), 'dashboard.sale_categories.')">
-                @lang('site.sale_categories') <i class="fas fa-list-alt"></i>
-           </x-responsive-nav-link>
+                        <x-responsive-nav-link href="{{ route('dashboard.sale_items.index') }}" :active="Str::startsWith(request()->route()->getName(), 'dashboard.sale_items.')">
+                            @lang('site.sale_items') <i class="fas fa-box-open"></i>
+                        </x-responsive-nav-link>
 
-           <x-responsive-nav-link href="{{ route('dashboard.sale_items.index') }}" :active="Str::startsWith(request()->route()->getName(), 'dashboard.sale_items.')">
-                @lang('site.sale_items') <i class="fas fa-newspaper"></i>
-           </x-responsive-nav-link>
-
-           <x-responsive-nav-link href="{{ route('dashboard.daily_sales.index') }}" :active="Str::startsWith(request()->route()->getName(), 'dashboard.daily_sales.')">
-               @lang('site.sales') <i class="fas fa-newspaper"></i>
-          </x-responsive-nav-link>
+                        <x-responsive-nav-link href="{{ route('dashboard.daily_sales.index') }}" :active="Str::startsWith(request()->route()->getName(), 'dashboard.daily_sales.')">
+                            @lang('site.sales') <i class="fas fa-file-invoice"></i>
+                        </x-responsive-nav-link>
+                    </div>
+                </details>
 
                 <x-responsive-nav-link href="{{ route('profile') }}" :active="request()->routeIs('profile')">
                     @lang('site.profile') <i class="fas fa-user-cog"></i>
                 </x-responsive-nav-link>
             </nav>
+
+
         </aside>
 
         <div class="container main-b flex-1 flex flex-col -ml-64 md:ml-64">
