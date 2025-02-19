@@ -76,13 +76,38 @@
                    @lang('site.users') <i class="fas fa-users"></i>
                 </x-responsive-nav-link>
 
-                <x-responsive-nav-link href="{{ route('dashboard.blogcategories.index') }}" :active="Str::startsWith(request()->route()->getName(), 'dashboard.blogcategories.')">
+                {{-- <x-responsive-nav-link href="{{ route('dashboard.blogcategories.index') }}" :active="Str::startsWith(request()->route()->getName(), 'dashboard.blogcategories.')">
                     @lang('site.categories') <i class="fas fa-list-alt"></i>
                 </x-responsive-nav-link>
 
                 <x-responsive-nav-link href="{{ route('dashboard.blogs.index') }}" :active="Str::startsWith(request()->route()->getName(), 'dashboard.blogs.')">
                      @lang('site.blogs') <i class="fas fa-newspaper"></i>
+                </x-responsive-nav-link> --}}
+                {{-- purchase --}}
+                <x-responsive-nav-link href="{{ route('dashboard.purchase_categories.index') }}" :active="Str::startsWith(request()->route()->getName(), 'dashboard.purchase_categories.')">
+                     @lang('site.purchasecategories') <i class="fas fa-list-alt"></i>
                 </x-responsive-nav-link>
+
+                <x-responsive-nav-link href="{{ route('dashboard.purchase_items.index') }}" :active="Str::startsWith(request()->route()->getName(), 'dashboard.purchase_items.')">
+                     @lang('site.purchaseitems') <i class="fas fa-newspaper"></i>
+                </x-responsive-nav-link>
+
+                <x-responsive-nav-link href="{{ route('dashboard.daily_purchases.index') }}" :active="Str::startsWith(request()->route()->getName(), 'dashboard.daily_purchases.')">
+                    @lang('site.purchase') <i class="fas fa-newspaper"></i>
+               </x-responsive-nav-link>
+
+               {{-- Sales --}}
+               <x-responsive-nav-link href="{{ route('dashboard.sale_categories.index') }}" :active="Str::startsWith(request()->route()->getName(), 'dashboard.sale_categories.')">
+                @lang('site.sale_categories') <i class="fas fa-list-alt"></i>
+           </x-responsive-nav-link>
+
+           <x-responsive-nav-link href="{{ route('dashboard.sale_items.index') }}" :active="Str::startsWith(request()->route()->getName(), 'dashboard.sale_items.')">
+                @lang('site.sale_items') <i class="fas fa-newspaper"></i>
+           </x-responsive-nav-link>
+
+           <x-responsive-nav-link href="{{ route('dashboard.daily_sales.index') }}" :active="Str::startsWith(request()->route()->getName(), 'dashboard.daily_sales.')">
+               @lang('site.sales') <i class="fas fa-newspaper"></i>
+          </x-responsive-nav-link>
 
                 <x-responsive-nav-link href="{{ route('profile') }}" :active="request()->routeIs('profile')">
                     @lang('site.profile') <i class="fas fa-user-cog"></i>

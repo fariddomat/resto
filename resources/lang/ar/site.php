@@ -210,4 +210,15 @@ return [
     'subServices' =>' الخدمات الفرعية',
     'privacy' =>' سياسة الخصوصية',
 
+
+    'purchasecategories' =>'تصنيفات المشتريات',
+    'purchaseitems' =>'عناصر المشتريات',
+    'purchase' =>'المشتريات',
+
+
+    'sale_categories' =>'تصنيفات المبيعات',
+    'sale_items' =>'عناصر المبيعات',
+    'sales' =>'المبيعات',
+    'cancel' => 'إلغاء'
+
 ];

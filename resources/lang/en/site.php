@@ -91,5 +91,13 @@ return [
     'subServices' =>' Sub Services',
     'privacy' =>'Privacy',
 
+    'purchasecategories' =>'Purchase Categories',
+    'purchaseitems' =>'Purchase Items',
+    'purchase' =>'Purchase',
+
+    'sale_categories' =>'Sale Categories',
+    'sale_items' =>'Sale Items',
+    'sales' =>'Sales',
+    'cancel' => 'Cancel'
 
 ];
