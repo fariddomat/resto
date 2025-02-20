@@ -12,6 +12,7 @@ use App\Http\Controllers\Dashboard\SaleCategoryController;
 use App\Http\Controllers\Dashboard\SaleItemController;
 use App\Http\Controllers\Dashboard\UserController;
 use App\Livewire\UserForm;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use SebastianBergmann\CodeCoverage\Report\Html\Dashboard;
 
@@ -25,8 +26,9 @@ use SebastianBergmann\CodeCoverage\Report\Html\Dashboard;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
-
-Route::view('/', 'welcome');
+Route::get('/', function () {
+    return redirect()->route('dashboard');
+});
 
 
 Route::middleware(['web'])->group(function () {
