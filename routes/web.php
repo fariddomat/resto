@@ -5,6 +5,7 @@ use App\Http\Controllers\Dashboard\BlogController;
 use App\Http\Controllers\Dashboard\DailyPurchaseController;
 use App\Http\Controllers\Dashboard\DailySaleController;
 use App\Http\Controllers\Dashboard\DashboardController;
+use App\Http\Controllers\Dashboard\PaymentController;
 use App\Http\Controllers\Dashboard\PurchaseCategoryController;
 use App\Http\Controllers\Dashboard\PurchaseItemController;
 use App\Http\Controllers\Dashboard\SaleCategoryController;
@@ -53,5 +54,9 @@ Route::prefix('dashboard')
             Route::resource('sale_categories', SaleCategoryController::class);
             Route::resource('sale_items', SaleItemController::class);
             Route::resource('daily_sales', DailySaleController::class);
+
+            Route::get('expenses', [PaymentController::class, 'expenses'])->name('expenses');
+            Route::get('revenues', [PaymentController::class, 'revenues'])->name('revenues');
+            Route::get('profits', [PaymentController::class, 'profits'])->name('profits');
         });
 require __DIR__ . '/auth.php';

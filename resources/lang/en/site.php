@@ -135,5 +135,18 @@ return [
     'purchaseCategory.name' => 'Purchase Category',
     'saleCategory.name' => 'Sale Category',
 
+    'expenses_report' => 'Expenses Report',
+    'year' => 'Year',
+    'month' => 'Month',
+    'total_expenses' => 'Total expenses',
+    'expenses' => 'Expenses',
+    'payments' => 'Payments',
+    'revenues' => 'Revenues',
+    'revenues_report' => 'Revenues Report',
+    'total_revenue' => 'Total Revenue',
+    'profits' => 'Profits',
+    'profits_reports' => 'Profits Reports',
+    'total_profits' => 'Total Reports',
+
 
 ];

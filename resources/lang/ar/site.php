@@ -247,4 +247,17 @@ return [
 
     'purchaseCategory.name' => 'التصنيف',
     'saleCategory.name' => 'التصنيف',
+
+    'expenses_report' => 'تقرير المصاريف',
+    'year' => 'السنة',
+    'month' => 'الشهر',
+    'total_expenses' => 'المصاريف الإجمالية',
+    'expenses' => 'المصاريف',
+    'payments' => 'المدفوعات',
+    'revenues' => 'المشتريات',
+    'revenues_report' => 'تقرير المشتريات',
+    'total_revenue' => 'المشتريات الإجمالية',
+    'profits' => 'الأرباح',
+    'profits_reports' => 'تقرير الأرباح',
+    'total_profits' => 'الأرباح الكلية',
 ];
