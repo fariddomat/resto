@@ -237,4 +237,14 @@ return [
     'add_more' => 'أضف المزيد',
     'select_item' => 'اختر عنصر',
 
+    'total_purchases' => 'إجمالي المشتريات',
+    'purchase_count' => 'عدد المشتريات',
+    'total_sales' => 'إجمالي المبيعات',
+    'sales_count' => 'عدد المبيعات',
+
+    'sale_items_count' => 'عدد العناصر',
+    'purchase_items_count' => 'عدد العناصر',
+
+    'purchaseCategory.name' => 'التصنيف',
+    'saleCategory.name' => 'التصنيف',
 ];

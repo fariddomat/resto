@@ -22,7 +22,13 @@
     <!-- Scripts -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     @livewireStyles
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;700&display=swap" rel="stylesheet">
+
     <style>
+        body {
+            font-family: 'Cairo', sans-serif;
+        }
+
         html[dir="rtl"] th {
             text-align: right;
         }
@@ -83,15 +89,17 @@
                     $isPurchaseActive = Str::startsWith(request()->route()->getName(), [
                         'dashboard.purchase_categories.',
                         'dashboard.purchase_items.',
-                        'dashboard.daily_purchases.'
+                        'dashboard.daily_purchases.',
                     ]);
                 @endphp
                 <details class="group" {{ $isPurchaseActive ? 'open' : '' }}>
-                    <summary class="{{ $isPurchaseActive ? 'block w-full ps-4 pe-4 py-2 border-l-4 border-white shadow-md text-start text-base font-medium text-white bg-blue-800 dark:bg-blue-800 rounded-md transition duration-200 ease-in-out flex justify-between items-center' : 'cursor-pointer block w-full ps-4 pe-4 py-2 rounded-lg border border-white/20 shadow-md shadow-gray-800/50 transition-all duration-200 hover:bg-gray-700 active:bg-gray-600 border-l-4 border-transparent text-start text-base font-medium text-gray-300 rounded-md transition duration-200 ease-in-out flex justify-between items-center' }}">
+                    <summary
+                        class="{{ $isPurchaseActive ? 'block w-full ps-4 pe-4 py-2 border-l-4 border-white shadow-md text-start text-base font-medium text-white bg-blue-800 dark:bg-blue-800 rounded-md transition duration-200 ease-in-out flex justify-between items-center' : 'cursor-pointer block w-full ps-4 pe-4 py-2 rounded-lg border border-white/20 shadow-md shadow-gray-800/50 transition-all duration-200 hover:bg-gray-700 active:bg-gray-600 border-l-4 border-transparent text-start text-base font-medium text-gray-300 rounded-md transition duration-200 ease-in-out flex justify-between items-center' }}">
                         @lang('site.purchase') <i class="fas fa-shopping-cart"></i>
                     </summary>
                     <div class="pl-6 space-y-2 py-2">
-                        <x-responsive-nav-link href="{{ route('dashboard.purchase_categories.index') }}" :active="Str::startsWith(request()->route()->getName(), 'dashboard.purchase_categories.')">
+                        <x-responsive-nav-link href="{{ route('dashboard.purchase_categories.index') }}"
+                            :active="Str::startsWith(request()->route()->getName(), 'dashboard.purchase_categories.')">
                             @lang('site.purchasecategories') <i class="fas fa-list-alt"></i>
                         </x-responsive-nav-link>
 
@@ -110,11 +118,12 @@
                     $isSalesActive = Str::startsWith(request()->route()->getName(), [
                         'dashboard.sale_categories.',
                         'dashboard.sale_items.',
-                        'dashboard.daily_sales.'
+                        'dashboard.daily_sales.',
                     ]);
                 @endphp
                 <details class="group" {{ $isSalesActive ? 'open' : '' }}>
-                    <summary class="{{ $isSalesActive ? 'block w-full ps-4 pe-4 py-2 border-l-4 border-white shadow-md text-start text-base font-medium text-white bg-blue-800 dark:bg-blue-800 rounded-md transition duration-200 ease-in-out flex justify-between items-center' : 'cursor-pointer block w-full ps-4 pe-4 py-2 rounded-lg border border-white/20 shadow-md shadow-gray-800/50 transition-all duration-200 hover:bg-gray-700 active:bg-gray-600 border-l-4 border-transparent text-start text-base font-medium text-gray-300 rounded-md transition duration-200 ease-in-out flex justify-between items-center' }}">
+                    <summary
+                        class="{{ $isSalesActive ? 'block w-full ps-4 pe-4 py-2 border-l-4 border-white shadow-md text-start text-base font-medium text-white bg-blue-800 dark:bg-blue-800 rounded-md transition duration-200 ease-in-out flex justify-between items-center' : 'cursor-pointer block w-full ps-4 pe-4 py-2 rounded-lg border border-white/20 shadow-md shadow-gray-800/50 transition-all duration-200 hover:bg-gray-700 active:bg-gray-600 border-l-4 border-transparent text-start text-base font-medium text-gray-300 rounded-md transition duration-200 ease-in-out flex justify-between items-center' }}">
                         @lang('site.sales') <i class="fas fa-chart-line"></i>
                     </summary>
                     <div class="pl-6 space-y-2 py-2">

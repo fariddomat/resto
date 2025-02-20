@@ -4,6 +4,7 @@ use App\Http\Controllers\Dashboard\BlogCategoryController;
 use App\Http\Controllers\Dashboard\BlogController;
 use App\Http\Controllers\Dashboard\DailyPurchaseController;
 use App\Http\Controllers\Dashboard\DailySaleController;
+use App\Http\Controllers\Dashboard\DashboardController;
 use App\Http\Controllers\Dashboard\PurchaseCategoryController;
 use App\Http\Controllers\Dashboard\PurchaseItemController;
 use App\Http\Controllers\Dashboard\SaleCategoryController;
@@ -28,7 +29,7 @@ Route::view('/', 'welcome');
 
 
 Route::middleware(['web'])->group(function () {
-    Route::view('dashboard', 'dashboard')
+    Route::get('dashboard', [DashboardController::class, 'index'])
         ->middleware(['auth', 'verified'])
         ->name('dashboard');
 

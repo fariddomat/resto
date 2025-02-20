@@ -11,7 +11,7 @@ class PurchaseCategoryController extends Controller
     // عرض جميع التصنيفات
     public function index()
     {
-        $categories = PurchaseCategory::paginate(20);
+        $categories = PurchaseCategory::withCount('purchaseItems')->paginate(20);
         return view('dashboard.purchase_categories.index', compact('categories'));
     }
 

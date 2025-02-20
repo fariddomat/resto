@@ -8,7 +8,7 @@
         <div class="overflow-x-auto mt-4">
             <div>
                 <x-table
-        :columns="['name', 'created_at']"
+        :columns="['name', 'sale_items_count', 'created_at']"
         :data="$categories"
         :edit="true"
         :delete="true"

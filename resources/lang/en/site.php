@@ -12,7 +12,12 @@ return [
     'image' => 'image',
     'role' => 'role',
     'slug' => 'slug',
-    'title' => 'العنوان',
+    'title' => 'Title',
+    'users' => 'Users',
+    'quantity' => 'Quantity',
+    'created_at' => 'Created at',
+    'updated_at' => 'Updated at',
+    'action' => 'Action',
 
     'password' => 'password',
     'password_confirmation' => 'password confirmation',
@@ -113,5 +118,22 @@ return [
     'no' => 'No',
     'add_more' => 'Add More',
     'select_item' => 'Select Item',
+    'add' => 'Add',
+    'edit' => 'Edit',
+    'update' => 'Update',
+    'create' => 'Create',
+    'save' => 'Save',
+
+    'total_purchases' => 'Total Purchases',
+    'purchase_count' => 'Purchase Count',
+    'total_sales' => 'Total Sales',
+    'sales_count' => 'Sales Count',
+
+    'sale_items_count' => 'Items Count',
+    'purchase_items_count' => 'Items Count',
+
+    'purchaseCategory.name' => 'Purchase Category',
+    'saleCategory.name' => 'Sale Category',
+
 
 ];

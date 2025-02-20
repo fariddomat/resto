@@ -11,7 +11,7 @@ class SaleCategoryController extends Controller
     // عرض جميع الفئات
     public function index()
     {
-        $categories = SaleCategory::paginate(02);
+        $categories = SaleCategory::withCount('saleItems')->paginate(02);
         return view('dashboard.sale_categories.index', compact('categories'));
     }
 
