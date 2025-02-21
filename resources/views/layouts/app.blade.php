@@ -80,10 +80,6 @@
                     @lang('site.home') <i class="fas fa-home"></i>
                 </x-responsive-nav-link>
 
-                <x-responsive-nav-link href="{{ route('dashboard.users.index') }}" :active="Str::startsWith(request()->route()->getName(), 'dashboard.users.')">
-                    @lang('site.users') <i class="fas fa-users"></i>
-                </x-responsive-nav-link>
-
                 {{-- Purchases Dropdown --}}
                 @php
                     $isPurchaseActive = Str::startsWith(request()->route()->getName(), [
@@ -141,33 +137,37 @@
                     </div>
                 </details>
 
-                  {{-- Payments Dropdown --}}
-                  @php
-                  $isSalesActive = Str::startsWith(request()->route()->getName(), [
-                      'dashboard.expenses',
-                      'dashboard.revenues',
-                      'dashboard.profits',
-                  ]);
-              @endphp
-              <details class="group" {{ $isSalesActive ? 'open' : '' }}>
-                  <summary
-                      class="{{ $isSalesActive ? 'block w-full ps-4 pe-4 py-2 border-l-4 border-white shadow-md text-start text-base font-medium text-white bg-blue-800 dark:bg-blue-800 rounded-md transition duration-200 ease-in-out flex justify-between items-center' : 'cursor-pointer block w-full ps-4 pe-4 py-2 rounded-lg border border-white/20 shadow-md shadow-gray-800/50 transition-all duration-200 hover:bg-gray-700 active:bg-gray-600 border-l-4 border-transparent text-start text-base font-medium text-gray-300 rounded-md transition duration-200 ease-in-out flex justify-between items-center' }}">
-                      @lang('site.payments') <i class="fas fa-credit-card"></i>
-                  </summary>
-                  <div class="pl-6 space-y-2 py-2">
-                      <x-responsive-nav-link href="{{ route('dashboard.expenses') }}" :active="Str::startsWith(request()->route()->getName(), 'dashboard.expenses')">
-                          @lang('site.expenses') <i class="fas fa-money-bill-wave"></i>
-                      </x-responsive-nav-link>
+                {{-- Payments Dropdown --}}
+                @php
+                    $isSalesActive = Str::startsWith(request()->route()->getName(), [
+                        'dashboard.expenses',
+                        'dashboard.revenues',
+                        'dashboard.profits',
+                    ]);
+                @endphp
+                <details class="group" {{ $isSalesActive ? 'open' : '' }}>
+                    <summary
+                        class="{{ $isSalesActive ? 'block w-full ps-4 pe-4 py-2 border-l-4 border-white shadow-md text-start text-base font-medium text-white bg-blue-800 dark:bg-blue-800 rounded-md transition duration-200 ease-in-out flex justify-between items-center' : 'cursor-pointer block w-full ps-4 pe-4 py-2 rounded-lg border border-white/20 shadow-md shadow-gray-800/50 transition-all duration-200 hover:bg-gray-700 active:bg-gray-600 border-l-4 border-transparent text-start text-base font-medium text-gray-300 rounded-md transition duration-200 ease-in-out flex justify-between items-center' }}">
+                        @lang('site.payments') <i class="fas fa-credit-card"></i>
+                    </summary>
+                    <div class="pl-6 space-y-2 py-2">
+                        <x-responsive-nav-link href="{{ route('dashboard.expenses') }}" :active="Str::startsWith(request()->route()->getName(), 'dashboard.expenses')">
+                            @lang('site.expenses') <i class="fas fa-money-bill-wave"></i>
+                        </x-responsive-nav-link>
 
-                      <x-responsive-nav-link href="{{ route('dashboard.revenues') }}" :active="Str::startsWith(request()->route()->getName(), 'dashboard.revenues')">
-                          @lang('site.revenues') <i class="fas fa-hand-holding-usd"></i>
-                      </x-responsive-nav-link>
+                        <x-responsive-nav-link href="{{ route('dashboard.revenues') }}" :active="Str::startsWith(request()->route()->getName(), 'dashboard.revenues')">
+                            @lang('site.revenues') <i class="fas fa-hand-holding-usd"></i>
+                        </x-responsive-nav-link>
 
-                      <x-responsive-nav-link href="{{ route('dashboard.profits') }}" :active="Str::startsWith(request()->route()->getName(), 'dashboard.profits')">
-                          @lang('site.profits') <i class="fas fa-chart-line"></i>
-                      </x-responsive-nav-link>
-                  </div>
-              </details>
+                        <x-responsive-nav-link href="{{ route('dashboard.profits') }}" :active="Str::startsWith(request()->route()->getName(), 'dashboard.profits')">
+                            @lang('site.profits') <i class="fas fa-chart-line"></i>
+                        </x-responsive-nav-link>
+                    </div>
+                </details>
+
+                <x-responsive-nav-link href="{{ route('dashboard.users.index') }}" :active="Str::startsWith(request()->route()->getName(), 'dashboard.users.')">
+                    @lang('site.users') <i class="fas fa-users"></i>
+                </x-responsive-nav-link>
                 <x-responsive-nav-link href="{{ route('profile') }}" :active="request()->routeIs('profile')">
                     @lang('site.profile') <i class="fas fa-user-cog"></i>
                 </x-responsive-nav-link>

@@ -145,6 +145,7 @@ return [
     'revenues_report' => 'Revenues Report',
     'total_revenue' => 'Total Revenue',
     'profits' => 'Profits',
+    'profit' => 'Profit',
     'profits_reports' => 'Profits Reports',
     'total_profits' => 'Total Reports',
 

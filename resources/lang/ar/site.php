@@ -258,6 +258,7 @@ return [
     'revenues_report' => 'تقرير المشتريات',
     'total_revenue' => 'المشتريات الإجمالية',
     'profits' => 'الأرباح',
+    'profit' => 'الأرباح',
     'profits_reports' => 'تقرير الأرباح',
     'total_profits' => 'الأرباح الكلية',
 ];
