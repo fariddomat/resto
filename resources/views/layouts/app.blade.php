@@ -1,3 +1,5 @@
+
+
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}" dir="{{ app()->getLocale() == 'ar' ? 'rtl' : 'ltr' }}"
     livewire:navigate>
@@ -186,23 +188,24 @@
                 </button>
 
                 <!-- User Actions -->
-                <div class="flex space-x-3 items-center text-lg">
-                    <span class="cursor-pointer hover:text-gray-500pr-2">
+                <div class="flex space-x-3 items-center text-lg ">
+                    {{-- <span class="cursor-pointer hover:text-gray-500pr-2">
                         <i class="fas fa-bell"></i>
-                    </span>
+                    </span> --}}
 
                     <span class="cursor-pointer hover:text-gray-500 pr-2">
                         <i class="fas fa-user"></i> {{ auth()->user()->name }}
                     </span>
 
                     <!-- Logout Button -->
-                    {{-- <form method="POST" action="{{ route('logout') }}">
-                        @csrf
-                        <button type="submit" class="flex items-center gap-2 text-red-500 hover:text-red-600 transition-all duration-200">
-                            <i class="fas fa-sign-out-alt"></i>
-                            <span>Logout</span>
+
+                    {{-- <span class="cursor-pointer hover:text-red-500 pr-2">
+                        <button class="w-full text-start" onclick="logoutUser()"  wire:navigate>
+                            <i class="fas fa-sign-out-alt"></i> @lang('site.logout')
                         </button>
-                    </form> --}}
+                    </span> --}}
+
+
                 </div>
             </header>
 
