@@ -16,6 +16,7 @@ class DashboardController extends Controller
             'totalSales' => DailySale::sum('total_price'),          // إجمالي تكلفة المبيعات
             'purchaseCount' => DailyPurchase::count(),             // عدد عمليات الشراء
             'salesCount' => DailySale::count(),                    // عدد عمليات البيع
+            'totalProfits' => DailySale::sum('total_price') - DailyPurchase::sum('total_price'),
         ]);
     }
 }

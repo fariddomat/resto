@@ -148,6 +148,7 @@ return [
     'profit' => 'Profit',
     'profits_reports' => 'Profits Reports',
     'total_profits' => 'Total Reports',
+    'reports' => 'Reports',
 
 
 ];

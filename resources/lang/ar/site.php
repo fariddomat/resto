@@ -261,4 +261,6 @@ return [
     'profit' => 'الأرباح',
     'profits_reports' => 'تقرير الأرباح',
     'total_profits' => 'الأرباح الكلية',
+    'reports' => 'التقارير',
+
 ];
