@@ -35,7 +35,7 @@ class DailySaleController extends Controller
             'total_price' => 'required|array',
             'total_price.*' => 'numeric|min:0',
             'is_taxable' => 'required|array',
-            'is_taxable.*' => 'boolean',
+            'is_taxable.*' => 'nullable|boolean',
             'tax_rate' => 'nullable|array',
             'tax_rate.*' => 'numeric|min:0|max:100',
         ]);
@@ -82,7 +82,7 @@ class DailySaleController extends Controller
             'sale_item_id' => 'required|exists:sale_items,id',
             'quantity' => 'required|integer|min:1',
             'total_price' => 'required|numeric|min:0',
-            'is_taxable' => 'boolean',
+            'is_taxable' => 'nullable|boolean',
             'tax_rate' => 'nullable|numeric',
             'total_tax' => 'nullable|numeric',
             'sale_date' => 'required|date',
@@ -102,7 +102,7 @@ class DailySaleController extends Controller
 
         return redirect()->route('dashboard.daily_sales.index')
             ->with('success', 'Daily sale updated successfully.');
-            
+
     }
 
     // حذف بيع يومي

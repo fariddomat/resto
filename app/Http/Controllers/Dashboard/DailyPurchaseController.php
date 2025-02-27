@@ -34,7 +34,7 @@ class DailyPurchaseController extends Controller
             'quantity.*' => 'integer|min:1',
             'total_price' => 'required|array',
             'total_price.*' => 'numeric|min:0',
-            'is_taxable' => 'required|array',
+            'is_taxable' => 'nullable|array',
             'is_taxable.*' => 'boolean',
             'tax_rate' => 'nullable|array',
             'tax_rate.*' => 'numeric|min:0|max:100',
@@ -84,7 +84,7 @@ class DailyPurchaseController extends Controller
             'quantity' => 'required|integer|min:1',
             'total_price' => 'required|numeric|min:0',
             'purchase_date' => 'required|date',
-            'is_taxable' => 'required|boolean',
+            'is_taxable' => 'nullable|boolean',
             'tax_rate' => 'nullable|numeric|min:0|max:100',
             'total_tax' => 'nullable|numeric|min:0',
         ]);
