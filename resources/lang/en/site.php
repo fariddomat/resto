@@ -149,6 +149,20 @@ return [
     'profits_reports' => 'Profits Reports',
     'total_profits' => 'Total Reports',
     'reports' => 'Reports',
+    'control_panel' => 'Control Panel',
+    'note' => 'Note',
+    'filter' => 'Filter',
+    'select_date' => 'Select Date',
+    'start_date' => 'Start Date',
+    'end_date' => 'End Date',
+    'profit_base' => 'Profit Base',
+    'profit_tax' => 'Profit Tax',
+
+
+    'base_total' => 'Base Total',
+    'tax' => 'Tax',
+    'total_with_tax' => 'Total With Tax',
+    'yearly_overview' => 'Yearly Overview',
 
 
 ];

@@ -19,6 +19,8 @@ return new class extends Migration
             $table->boolean('is_taxable')->default(false);
             $table->decimal('tax_rate', 5, 2)->nullable();
             $table->decimal('total_tax', 8, 2)->nullable();
+            $table->text('note')->nullable();
+            $table->string('status')->default('pending');
             $table->date('purchase_date');
             $table->timestamps();
         });

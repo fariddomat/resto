@@ -23,7 +23,7 @@
                         <th class="border p-2">@lang('site.quantity')</th>
                         <th class="border p-2">@lang('site.total_price')</th>
                         <th class="border p-2">@lang('site.is_taxable')</th>
-                        <th class="border p-2">@lang('site.tax_rate')</th>
+                        <th class="border p-2">@lang('site.note')</th>
                         <th class="border p-2">@lang('site.actions')</th>
                     </tr>
                 </thead>
@@ -57,15 +57,15 @@
                                 @endforeach
                             </select>
                         </td>
-                        <td class="border p-2"><input type="number" name="quantity[]" class="w-full border p-2" min="1"></td>
+                        <td class="border p-2"><input type="number" value="1" min="1" name="quantity[]" class="w-full border p-2" min="1"></td>
                         <td class="border p-2"><input type="number" name="total_price[]" class="w-full border p-2" min="0"></td>
                         <td class="border p-2">
                             <select name="is_taxable[]" class="w-full border p-2">
-                                <option value="0">@lang('site.no')</option>
+                                <option value="0" selected>@lang('site.no')</option>
                                 <option value="1">@lang('site.yes')</option>
                             </select>
                         </td>
-                        <td class="border p-2"><input type="number" name="tax_rate[]" class="w-full border p-2" min="0" max="100"></td>
+                        <td class="border p-2"><input type="text" name="note[]" class="w-full border p-2"></td>
                         <td class="border p-2 text-center">
                             <button type="button" class="remove-row bg-red-500 text-white px-3 py-1 rounded">X</button>
                         </td>

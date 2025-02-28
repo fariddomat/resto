@@ -28,7 +28,7 @@ class SaleItemController extends Controller
     {
         $request->validate([
             'name' => 'required|string|max:255',
-            'price' => 'required|numeric|min:0',
+            'price' => 'nullable|numeric|min:0',
             'sale_category_id' => 'required|exists:sale_categories,id',
         ]);
 
@@ -62,7 +62,7 @@ class SaleItemController extends Controller
     {
         $request->validate([
             'name' => 'required|string|max:255',
-            'price' => 'required|numeric|min:0',
+            'price' => 'nullable|numeric|min:0',
             'sale_category_id' => 'required|exists:sale_categories,id',
         ]);
 

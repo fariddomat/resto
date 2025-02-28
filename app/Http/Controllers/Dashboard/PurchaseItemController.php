@@ -28,7 +28,7 @@ class PurchaseItemController extends Controller
     {
         $request->validate([
             'name' => 'required|string|max:255',
-            'price' => 'required|numeric|min:0',
+            'price' => 'nullable|numeric|min:0',
             'purchase_category_id' => 'required|exists:purchase_categories,id',
         ]);
 
@@ -62,7 +62,7 @@ class PurchaseItemController extends Controller
     {
         $request->validate([
             'name' => 'required|string|max:255',
-            'price' => 'required|numeric|min:0',
+            'price' => 'nullable|numeric|min:0',
             'purchase_category_id' => 'required|exists:purchase_categories,id',
         ]);
 

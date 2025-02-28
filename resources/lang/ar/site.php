@@ -248,11 +248,11 @@ return [
     'purchaseCategory.name' => 'التصنيف',
     'saleCategory.name' => 'التصنيف',
 
-    'expenses_report' => 'تقرير المصاريف',
+    'expenses_report' => 'تقرير المبيعات',
     'year' => 'السنة',
     'month' => 'الشهر',
-    'total_expenses' => 'المصاريف الإجمالية',
-    'expenses' => 'المصاريف',
+    'total_expenses' => 'المبيعات الإجمالية',
+    'expenses' => 'المبيعات',
     'payments' => 'المدفوعات',
     'revenues' => 'المشتريات',
     'revenues_report' => 'تقرير المشتريات',
@@ -262,5 +262,21 @@ return [
     'profits_reports' => 'تقرير الأرباح',
     'total_profits' => 'الأرباح الكلية',
     'reports' => 'التقارير',
+    'control_panel' => 'لوحة التحكم',
+    'note' => 'الملاحظات',
+
+    'filter' => 'فلترة',
+    'select_date' => 'اختر تاريخ',
+    'start_date' => 'من تاريخ',
+    'end_date' => 'إلى تاريخ',
+
+    'profit_base' => 'صافي الارباح',
+    'profit_tax' => 'ضريبة الارباح',
+
+
+    'base_total' => 'المبلغ الصافي',
+    'tax' => 'الضريبة',
+    'total_with_tax' => 'المبلغ الكلي',
+    'yearly_overview' => 'نظرة عامة سنوية',
 
 ];

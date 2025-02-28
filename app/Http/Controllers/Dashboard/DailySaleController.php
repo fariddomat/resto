@@ -11,10 +11,32 @@ class DailySaleController extends Controller
 {
     // عرض جميع المبيعات اليومية
     public function index()
-    {
-        $dailySales = DailySale::with('saleItem')->paginate(02);
-        return view('dashboard.daily_sales.index', compact('dailySales'));
+{
+    $query = DailySale::with('saleItem');
+
+    // Filter by exact date
+    if (request('date')) {
+        $query->whereDate('sale_date', request('date'));
     }
+
+    // Filter by date range (start & end date)
+    if (request('start_date') && request('end_date')) {
+        $query->whereBetween('sale_date', [request('start_date'), request('end_date')]);
+    }
+
+    // Filter by category
+    if (request('category_id')) {
+        $query->whereHas('saleItem.saleCategory', function ($q) {
+            $q->where('id', request('category_id'));
+        });
+    }
+
+    $dailySales = $query->paginate(20)->appends(request()->query());
+
+    return view('dashboard.daily_sales.index', compact('dailySales'));
+}
+
+
 
     // عرض صفحة إضافة بيع يومي جديد
     public function create()
@@ -102,7 +124,6 @@ class DailySaleController extends Controller
 
         return redirect()->route('dashboard.daily_sales.index')
             ->with('success', 'Daily sale updated successfully.');
-
     }
 
     // حذف بيع يومي

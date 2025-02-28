@@ -11,10 +11,17 @@ class DailyPurchaseController extends Controller
 {
     // عرض جميع المشتريات اليومية
     public function index()
-    {
-        $dailyPurchases = DailyPurchase::with('purchaseItem')->paginate(20);
-        return view('dashboard.daily_purchases.index', compact('dailyPurchases'));
-    }
+{
+    $dailyPurchases = DailyPurchase::with('purchaseItem')
+        ->byDate(request('date'))
+        ->byDateRange(request('start_date'), request('end_date'))
+        ->byCategory(request('category_id'))
+        ->paginate(20)
+        ->appends(request()->query());
+
+    return view('dashboard.daily_purchases.index', compact('dailyPurchases'));
+}
+
 
     // عرض صفحة إضافة شراء يومي جديد
     public function create()

@@ -70,9 +70,9 @@
 
             <!-- Tax Rate -->
             <div class="mb-4">
-                <label class="block text-sm font-medium text-gray-700">@lang('site.tax_rate')</label>
-                <input type="number" name="tax_rate" value="{{ old('tax_rate', $dailySale->tax_rate) }}" class="w-full border border-gray-300 rounded p-2" min="0" max="100">
-                @error('tax_rate')
+                <label class="block text-sm font-medium text-gray-700">@lang('site.note')</label>
+                <input type="text" name="note" value="{{ old('note', $dailySale->note) }}" class="w-full border border-gray-300 rounded p-2" min="0" max="100">
+                @error('note')
                     <span class="text-red-500 text-sm">{{ $message }}</span>
                 @enderror
             </div>
