@@ -11,7 +11,7 @@
 
             <div class="mb-4">
                 <label class="block text-sm font-medium text-gray-700">@lang('site.sale_date')</label>
-                <input type="date" name="sale_date" id="sale_date" class="w-full border border-gray-300 rounded p-2">
+                <input type="date" name="sale_date" value="{{ date('Y-m-d') }}" id="sale_date" class="w-full border border-gray-300 rounded p-2">
                 <span id="sale_date_error" class="text-red-500 text-sm"></span>
             </div>
 

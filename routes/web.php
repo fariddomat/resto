@@ -62,9 +62,13 @@ Route::prefix('dashboard')
             Route::resource('purchase_items', PurchaseItemController::class);
             Route::resource('daily_purchases', DailyPurchaseController::class);
 
+            Route::post('/daily-purchases/confirm', [DailyPurchaseController::class, 'confirmTodayPurchases'])
+            ->name('daily_purchases.confirm');
             Route::resource('sale_categories', SaleCategoryController::class);
             Route::resource('sale_items', SaleItemController::class);
             Route::resource('daily_sales', DailySaleController::class);
+            Route::post('/daily-sales/confirm', [DailySaleController::class, 'confirmTodaySales'])
+            ->name('daily_sales.confirm');
 
             Route::get('expenses', [PaymentController::class, 'expenses'])->name('expenses');
             Route::get('revenues', [PaymentController::class, 'revenues'])->name('revenues');

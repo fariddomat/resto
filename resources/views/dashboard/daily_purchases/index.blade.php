@@ -2,37 +2,45 @@
     <div class="container mx-auto p-6">
         <h1 class="text-2xl font-bold mb-4">@lang('site.purchase')</h1>
 
-        <a href="{{ route('dashboard.daily_purchases.create') }}"
-            class="px-4 py-2 bg-blue-500 text-white rounded shadow"
-            wire:navigate>
-            ➕ @lang('site.add') @lang('site.purchase')
-        </a>
+        <!-- Add Purchases Button -->
+        <div class="flex gap-4 mb-4">
+            <a href="{{ route('dashboard.daily_purchases.create') }}" class="px-4 py-2 bg-blue-500 text-white rounded shadow" wire:navigate>
+                ➕ @lang('site.add') @lang('site.purchase')
+            </a>
 
-        <!-- Filters Section -->
-        <form method="GET" class="mt-4 bg-white p-4 rounded shadow-md flex flex-wrap gap-4">
-            <!-- Date Filter -->
+            <!-- Confirm Today’s Purchases Button -->
+            <form action="{{ route('dashboard.daily_purchases.confirm') }}" method="POST">
+                @csrf
+                <button type="submit" class="px-4 py-2 bg-green-500 text-white rounded shadow" onclick="return confirm(@lang('site.confirm_today_purchases')?)">
+                    ✅ @lang('site.confirm_today_purchases')
+                </button>
+            </form>
+        </div>
+
+        <!-- Filter Form -->
+        <form method="GET" class="mt-4 bg-white p-4 rounded shadow-md flex flex-wrap gap-4" id="filterForm">
             <div>
-                <label class="block text-sm font-medium">@lang('site.select_date')</label>
-                <input type="date" name="date" value="{{ request('date') }}" class="border p-2 rounded w-full">
+                <label for="date" class="block text-sm font-medium text-gray-700">@lang('site.select_date')</label>
+                <input type="date" id="date" name="date"
+                       value="{{ request('start_date') || request('end_date') ? '' : request('date', today()->toDateString()) }}"
+                       class="border p-2 rounded w-full">
             </div>
 
-            <!-- Date Range Filter -->
             <div>
-                <label class="block text-sm font-medium">@lang('site.start_date')</label>
-                <input type="date" name="start_date" value="{{ request('start_date') }}" class="border p-2 rounded w-full">
+                <label for="start_date" class="block text-sm font-medium text-gray-700">@lang('site.start_date')</label>
+                <input type="date" id="start_date" name="start_date" value="{{ request('start_date') }}" class="border p-2 rounded w-full">
             </div>
 
             <div>
-                <label class="block text-sm font-medium">@lang('site.end_date')</label>
-                <input type="date" name="end_date" value="{{ request('end_date') }}" class="border p-2 rounded w-full">
+                <label for="end_date" class="block text-sm font-medium text-gray-700">@lang('site.end_date')</label>
+                <input type="date" id="end_date" name="end_date" value="{{ request('end_date') }}" class="border p-2 rounded w-full">
             </div>
 
-            <!-- Category Filter -->
             <div>
                 <label for="category_id" class="block text-sm font-medium text-gray-700">@lang('site.category')</label>
-                <select name="category_id" class="border p-[0.7rem] rounded w-full">
-                    <option value="">@lang('site.all')</option>
-                    @foreach(\App\Models\PurchaseCategory::all() as $category)
+                <select id="category_id" name="category_id" class="border p-[0.7rem] rounded w-full">
+                    <option value="">@lang('site.all_categories')</option>
+                    @foreach(\App\Models\PurchaseCategory::all() as $category) <!-- Adjust to your category model -->
                         <option value="{{ $category->id }}" {{ request('category_id') == $category->id ? 'selected' : '' }}>
                             {{ $category->name }}
                         </option>
@@ -40,27 +48,45 @@
                 </select>
             </div>
 
-            <!-- Submit Button -->
-            <div class="flex items-end">
+            <div>
                 <button type="submit" class="px-4 py-2 bg-blue-500 text-white rounded shadow mt-6">
                     🔍 @lang('site.filter')
                 </button>
             </div>
         </form>
 
-        <!-- Table Section -->
+        <!-- Purchases Table -->
         <div class="overflow-x-auto mt-4">
             <x-table
-                :columns="['purchaseItem.name', 'quantity', 'total_price', 'purchase_date']"
+                :columns="['purchaseItem.name', 'quantity', 'total_price', 'purchase_date', 'status']"
                 :data="$dailyPurchases"
-                :edit="true"
-                :delete="true"
+                :edit="(request('date') === null && request('start_date') === null && request('end_date') === null) || request('date') === today()->toDateString()"
+                :delete="(request('date') === null && request('start_date') === null && request('end_date') === null) || request('date') === today()->toDateString()"
                 :routePrefix="'dashboard.daily_purchases'"
             />
 
+            <!-- Pagination -->
             <div class="mt-4">
-                {{ $dailyPurchases->links() }}
+                {{ $dailyPurchases->appends(request()->query())->links() }}
             </div>
         </div>
     </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const startDateInput = document.getElementById('start_date');
+            const endDateInput = document.getElementById('end_date');
+            const dateInput = document.getElementById('date');
+
+            // Clear select_date when start_date changes
+            startDateInput.addEventListener('change', function () {
+                dateInput.value = '';
+            });
+
+            // Clear select_date when end_date changes
+            endDateInput.addEventListener('change', function () {
+                dateInput.value = '';
+            });
+        });
+    </script>
 </x-app-layout>

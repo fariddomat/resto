@@ -279,4 +279,11 @@ return [
     'total_with_tax' => 'المبلغ الكلي',
     'yearly_overview' => 'نظرة عامة سنوية',
 
+
+
+    'status' => 'الحالة',
+    'confirmed' => 'تم التأكيد',
+    'pending' => 'غير مؤكد',
+    'confirm_today_sales' => 'تأكيد مبيعات اليوم',
+    'confirm_today_purchases' => 'تأكيد مشتريات اليوم',
 ];

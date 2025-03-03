@@ -11,22 +11,39 @@ class DailyPurchaseController extends Controller
 {
     // عرض جميع المشتريات اليومية
     public function index()
-{
-    $dailyPurchases = DailyPurchase::with('purchaseItem')
-        ->byDate(request('date'))
-        ->byDateRange(request('start_date'), request('end_date'))
-        ->byCategory(request('category_id'))
-        ->paginate(20)
-        ->appends(request()->query());
+    {
+        $query = DailyPurchase::with('purchaseItem');
 
-    return view('dashboard.daily_purchases.index', compact('dailyPurchases'));
-}
+        // Default to today's date if no filters are applied
+        if (!request('date') && !request('start_date') && !request('end_date') && !request('category_id')) {
+            $query->whereDate('purchase_date', today());
+        } else {
+            // Apply existing scope filters
+            $query->byDate(request('date'))
+                  ->byDateRange(request('start_date'), request('end_date'))
+                  ->byCategory(request('category_id'));
+        }
 
+        $dailyPurchases = $query->paginate(20)->appends(request()->query());
+
+        return view('dashboard.daily_purchases.index', compact('dailyPurchases'));
+    }
+
+    // Confirm today's purchases
+    public function confirmTodayPurchases()
+    {
+        DailyPurchase::whereDate('purchase_date', today())
+            ->where('status', 'pending') // Assuming a status column exists
+            ->update(['status' => 'confirmed']);
+
+        return redirect()->route('dashboard.daily_purchases.index')
+            ->with('success', 'Today\'s purchases confirmed successfully.');
+    }
 
     // عرض صفحة إضافة شراء يومي جديد
     public function create()
     {
-        $purchaseItems = PurchaseItem::all(); // استرجاع جميع العناصر التي يمكن شراؤها
+        $purchaseItems = PurchaseItem::all();
         return view('dashboard.daily_purchases.create', compact('purchaseItems'));
     }
 
@@ -61,12 +78,12 @@ class DailyPurchaseController extends Controller
                 'tax_rate' => $request->tax_rate[$index] ?? 0,
                 'total_tax' => $tax,
                 'purchase_date' => $request->purchase_date,
+                'status' => 'pending', // Add status if not already present
             ]);
         }
 
         return response()->json(['success' => true, 'message' => 'Purchases added successfully']);
     }
-
 
     // عرض تفاصيل الشراء اليومي
     public function show($id)
@@ -79,6 +96,13 @@ class DailyPurchaseController extends Controller
     public function edit($id)
     {
         $dailyPurchase = DailyPurchase::findOrFail($id);
+
+        // Prevent editing if confirmed
+        if ($dailyPurchase->status === 'confirmed') {
+            return redirect()->route('dashboard.daily_purchases.index')
+                ->with('error', 'Cannot edit confirmed purchases.');
+        }
+
         $purchaseItems = PurchaseItem::all();
         return view('dashboard.daily_purchases.edit', compact('dailyPurchase', 'purchaseItems'));
     }
@@ -86,6 +110,14 @@ class DailyPurchaseController extends Controller
     // تحديث الشراء اليومي
     public function update(Request $request, $id)
     {
+        $dailyPurchase = DailyPurchase::findOrFail($id);
+
+        // Prevent updating if confirmed
+        if ($dailyPurchase->status === 'confirmed') {
+            return redirect()->route('dashboard.daily_purchases.index')
+                ->with('error', 'Cannot update confirmed purchases.');
+        }
+
         $request->validate([
             'purchase_item_id' => 'required|exists:purchase_items,id',
             'quantity' => 'required|integer|min:1',
@@ -96,9 +128,6 @@ class DailyPurchaseController extends Controller
             'total_tax' => 'nullable|numeric|min:0',
         ]);
 
-        $dailyPurchase = DailyPurchase::findOrFail($id);
-
-        // حساب الضريبة إذا كانت قابلة للتطبيق
         $tax = 0;
         if ($request->is_taxable && $request->tax_rate) {
             $tax = ($request->total_price * $request->tax_rate) / 100;
@@ -122,6 +151,13 @@ class DailyPurchaseController extends Controller
     public function destroy($id)
     {
         $dailyPurchase = DailyPurchase::findOrFail($id);
+
+        // Prevent deletion if confirmed
+        if ($dailyPurchase->status === 'confirmed') {
+            return redirect()->route('dashboard.daily_purchases.index')
+                ->with('error', 'Cannot delete confirmed purchases.');
+        }
+
         $dailyPurchase->delete();
 
         return redirect()->route('dashboard.daily_purchases.index')

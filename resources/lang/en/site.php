@@ -164,5 +164,11 @@ return [
     'total_with_tax' => 'Total With Tax',
     'yearly_overview' => 'Yearly Overview',
 
+    'status' => 'Status',
+    'confirmed' => 'Confirmed',
+    'pending' => 'Pending',
+    'confirm_today_sales' => 'Confirm Today Sales',
+    'confirm_today_purchases' => 'Confirm Today Purchases',
+
 
 ];

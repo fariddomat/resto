@@ -3,15 +3,27 @@
         <h1 class="text-2xl font-bold mb-4">@lang('site.sales')</h1>
 
         <!-- Add Sales Button -->
-        <a href="{{ route('dashboard.daily_sales.create') }}" class="px-4 py-2 bg-blue-500 text-white rounded shadow" wire:navigate>
-            ➕ @lang('site.add') @lang('site.sales')
-        </a>
+        <div class="flex gap-4 mb-4">
+            <a href="{{ route('dashboard.daily_sales.create') }}" class="px-4 py-2 bg-blue-500 text-white rounded shadow" wire:navigate>
+                ➕ @lang('site.add') @lang('site.sales')
+            </a>
+
+            <!-- Confirm Today’s Sales Button -->
+            <form action="{{ route('dashboard.daily_sales.confirm') }}" method="POST">
+                @csrf
+                <button type="submit" class="px-4 py-2 bg-green-500 text-white rounded shadow" onclick="return confirm(@lang('site.confirm_today_sales')?)">
+                    ✅ @lang('site.confirm_today_sales')
+                </button>
+            </form>
+        </div>
 
         <!-- Filter Form -->
-        <form method="GET" class="mt-4 bg-white p-4 rounded shadow-md flex flex-wrap gap-4">
+        <form method="GET" class="mt-4 bg-white p-4 rounded shadow-md flex flex-wrap gap-4" id="filterForm">
             <div>
                 <label for="date" class="block text-sm font-medium text-gray-700">@lang('site.select_date')</label>
-                <input type="date" id="date" name="date" value="{{ request('date') }}" class="border p-2 rounded w-full">
+                <input type="date" id="date" name="date"
+                       value="{{ request('start_date') || request('end_date') ? '' : request('date') }}"
+                       class="border p-2 rounded w-full">
             </div>
 
             <div>
@@ -46,10 +58,10 @@
         <!-- Sales Table -->
         <div class="overflow-x-auto mt-4">
             <x-table
-                :columns="['saleItem.name', 'quantity', 'total_price', 'sale_date']"
+                :columns="['saleItem.name', 'quantity', 'total_price', 'sale_date', 'status']"
                 :data="$dailySales"
-                :edit="true"
-                :delete="true"
+                :edit="(request('date') === null && request('start_date') === null && request('end_date') === null) || request('date') === today()->toDateString()"
+                :delete="(request('date') === null && request('start_date') === null && request('end_date') === null) || request('date') === today()->toDateString()"
                 :routePrefix="'dashboard.daily_sales'"
             />
 
@@ -59,4 +71,22 @@
             </div>
         </div>
     </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const startDateInput = document.getElementById('start_date');
+            const endDateInput = document.getElementById('end_date');
+            const dateInput = document.getElementById('date');
+
+            // Clear select_date when start_date changes
+            startDateInput.addEventListener('change', function () {
+                dateInput.value = '';
+            });
+
+            // Clear select_date when end_date changes
+            endDateInput.addEventListener('change', function () {
+                dateInput.value = '';
+            });
+        });
+    </script>
 </x-app-layout>
