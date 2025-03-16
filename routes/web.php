@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AuthController;
 use App\Http\Controllers\Dashboard\BlogCategoryController;
 use App\Http\Controllers\Dashboard\BlogController;
 use App\Http\Controllers\Dashboard\DailyPurchaseController;
@@ -73,5 +74,7 @@ Route::prefix('dashboard')
             Route::get('expenses', [PaymentController::class, 'expenses'])->name('expenses');
             Route::get('revenues', [PaymentController::class, 'revenues'])->name('revenues');
             Route::get('profits', [PaymentController::class, 'profits'])->name('profits');
+            Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
+
         });
 require __DIR__ . '/auth.php';

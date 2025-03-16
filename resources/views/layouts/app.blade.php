@@ -189,17 +189,13 @@
                         <i class="fas fa-bell"></i>
                     </span> --}}
 
-                    <span class="cursor-pointer hover:text-gray-500 pr-2">
-                        <i class="fas fa-user"></i> {{ auth()->user()->name }}
-                    </span>
-
                     <!-- Logout Button -->
 
-                    {{-- <span class="cursor-pointer hover:text-red-500 pr-2">
-                        <button class="w-full text-start" onclick="logoutUser()"  wire:navigate>
+                    <span class="cursor-pointer hover:text-red-500 pr-2 w-full">
+                        <a class="w-full text-start" href="{{ route('dashboard.logout') }}"  wire:navigate>
                             <i class="fas fa-sign-out-alt"></i> @lang('site.logout')
-                        </button>
-                    </span> --}}
+                        </a>
+                    </span>
 
 
                 </div>
