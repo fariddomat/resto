@@ -8,13 +8,26 @@
                 ➕ @lang('site.add') @lang('site.sales')
             </a>
 
-            <!-- Confirm Today’s Sales Button -->
-            <form action="{{ route('dashboard.daily_sales.confirm') }}" method="POST">
-                @csrf
-                <button type="submit" class="px-4 py-2 bg-green-500 text-white rounded shadow" onclick="return confirm(@lang('site.confirm_today_sales')?)">
-                    ✅ @lang('site.confirm_today_sales')
-                </button>
-            </form>
+            <!-- Confirm Sales Button -->
+            @can('superadministrator') <!-- Adjust based on your role-checking method -->
+                <form action="{{ route('dashboard.daily_sales.confirm') }}" method="POST">
+                    @csrf
+                    <!-- Pass filter values -->
+                    <input type="hidden" name="date" value="{{ request('date') }}">
+                    <input type="hidden" name="start_date" value="{{ request('start_date') }}">
+                    <input type="hidden" name="end_date" value="{{ request('end_date') }}">
+                    <button type="submit" class="px-4 py-2 bg-green-500 text-white rounded shadow" onclick="return confirm(@lang('site.confirm_filtered_sales')?)">
+                        ✅ @lang('site.confirm_sales')
+                    </button>
+                </form>
+            @else
+                <form action="{{ route('dashboard.daily_sales.confirm') }}" method="POST">
+                    @csrf
+                    <button type="submit" class="px-4 py-2 bg-green-500 text-white rounded shadow" onclick="return confirm(@lang('site.confirm_today_sales')?)">
+                        ✅ @lang('site.confirm_today_sales')
+                    </button>
+                </form>
+            @endcan
         </div>
 
         <!-- Filter Form -->
@@ -22,7 +35,7 @@
             <div>
                 <label for="date" class="block text-sm font-medium text-gray-700">@lang('site.select_date')</label>
                 <input type="date" id="date" name="date"
-                       value="{{ request('start_date') || request('end_date') ? '' : request('date') }}"
+                       value="{{ request('start_date') || request('end_date') ? '' : request('date', today()->toDateString()) }}"
                        class="border p-2 rounded w-full">
             </div>
 
@@ -60,8 +73,8 @@
             <x-table
                 :columns="['saleItem.name', 'quantity', 'total_price', 'sale_date', 'status']"
                 :data="$dailySales"
-                :edit="(request('date') === null && request('start_date') === null && request('end_date') === null) || request('date') === today()->toDateString()"
-                :delete="(request('date') === null && request('start_date') === null && request('end_date') === null) || request('date') === today()->toDateString()"
+                :edit="auth()->user()->hasRole('superadministrator') ? true : ((request('date') === null && request('start_date') === null && request('end_date') === null) || request('date') === today()->toDateString())"
+                :delete="auth()->user()->hasRole('superadministrator') ? true : ((request('date') === null && request('start_date') === null && request('end_date') === null) || request('date') === today()->toDateString())"
                 :routePrefix="'dashboard.daily_sales'"
             />
 

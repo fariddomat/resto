@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\DailyPurchase;
 use App\Models\PurchaseItem;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class DailyPurchaseController extends Controller
 {
@@ -29,15 +30,30 @@ class DailyPurchaseController extends Controller
         return view('dashboard.daily_purchases.index', compact('dailyPurchases'));
     }
 
-    // Confirm today's purchases
-    public function confirmTodayPurchases()
+    // Confirm purchases (modified to handle any date for superadministrator)
+    public function confirmPurchases(Request $request)
     {
-        DailyPurchase::whereDate('purchase_date', today())
-            ->where('status', 'pending') // Assuming a status column exists
-            ->update(['status' => 'confirmed']);
+        $user = Auth::user();
+        $isSuperAdmin = $user->hasRole('superadministrator'); // Adjust based on your role-checking method
+
+        if ($isSuperAdmin) {
+            // Superadmin can confirm purchases for any date
+            $query = DailyPurchase::where('status', 'pending');
+            if ($request->has('date')) {
+                $query->whereDate('purchase_date', $request->date);
+            } elseif ($request->has('start_date') && $request->has('end_date')) {
+                $query->whereBetween('purchase_date', [$request->start_date, $request->end_date]);
+            }
+            $query->update(['status' => 'confirmed']);
+        } else {
+            // Non-superadmin can only confirm today's purchases
+            DailyPurchase::whereDate('purchase_date', today())
+                ->where('status', 'pending')
+                ->update(['status' => 'confirmed']);
+        }
 
         return redirect()->route('dashboard.daily_purchases.index')
-            ->with('success', 'Today\'s purchases confirmed successfully.');
+            ->with('success', 'Purchases confirmed successfully.');
     }
 
     // عرض صفحة إضافة شراء يومي جديد
@@ -78,7 +94,7 @@ class DailyPurchaseController extends Controller
                 'tax_rate' => $request->tax_rate[$index] ?? 0,
                 'total_tax' => $tax,
                 'purchase_date' => $request->purchase_date,
-                'status' => 'pending', // Add status if not already present
+                'status' => 'pending',
             ]);
         }
 
@@ -96,9 +112,11 @@ class DailyPurchaseController extends Controller
     public function edit($id)
     {
         $dailyPurchase = DailyPurchase::findOrFail($id);
+        $user = Auth::user();
+        $isSuperAdmin = $user->hasRole('superadministrator'); // Adjust based on your role-checking method
 
-        // Prevent editing if confirmed
-        if ($dailyPurchase->status === 'confirmed') {
+        // Allow superadmin to edit regardless of status
+        if (!$isSuperAdmin && $dailyPurchase->status === 'confirmed') {
             return redirect()->route('dashboard.daily_purchases.index')
                 ->with('error', 'Cannot edit confirmed purchases.');
         }
@@ -111,9 +129,11 @@ class DailyPurchaseController extends Controller
     public function update(Request $request, $id)
     {
         $dailyPurchase = DailyPurchase::findOrFail($id);
+        $user = Auth::user();
+        $isSuperAdmin = $user->hasRole('superadministrator'); // Adjust based on your role-checking method
 
-        // Prevent updating if confirmed
-        if ($dailyPurchase->status === 'confirmed') {
+        // Allow superadmin to update regardless of status
+        if (!$isSuperAdmin && $dailyPurchase->status === 'confirmed') {
             return redirect()->route('dashboard.daily_purchases.index')
                 ->with('error', 'Cannot update confirmed purchases.');
         }
@@ -151,9 +171,11 @@ class DailyPurchaseController extends Controller
     public function destroy($id)
     {
         $dailyPurchase = DailyPurchase::findOrFail($id);
+        $user = Auth::user();
+        $isSuperAdmin = $user->hasRole('superadministrator'); // Adjust based on your role-checking method
 
-        // Prevent deletion if confirmed
-        if ($dailyPurchase->status === 'confirmed') {
+        // Allow superadmin to delete regardless of status
+        if (!$isSuperAdmin && $dailyPurchase->status === 'confirmed') {
             return redirect()->route('dashboard.daily_purchases.index')
                 ->with('error', 'Cannot delete confirmed purchases.');
         }

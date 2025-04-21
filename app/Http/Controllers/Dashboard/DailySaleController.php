@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\DailySale;
 use App\Models\SaleItem;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class DailySaleController extends Controller
 {
@@ -41,15 +42,30 @@ class DailySaleController extends Controller
         return view('dashboard.daily_sales.index', compact('dailySales'));
     }
 
-    // Confirm today's sales
-    public function confirmTodaySales()
+    // Confirm sales (modified to handle any date for superadministrator)
+    public function confirmSales(Request $request)
     {
-        DailySale::whereDate('sale_date', today())
-            ->where('status', 'pending')
-            ->update(['status' => 'confirmed']);
+        $user = Auth::user();
+        $isSuperAdmin = $user->hasRole('superadministrator'); // Adjust based on your role-checking method
+
+        if ($isSuperAdmin) {
+            // Superadmin can confirm sales for any date
+            $query = DailySale::where('status', 'pending');
+            if ($request->has('date')) {
+                $query->whereDate('sale_date', $request->date);
+            } elseif ($request->has('start_date') && $request->has('end_date')) {
+                $query->whereBetween('sale_date', [$request->start_date, $request->end_date]);
+            }
+            $query->update(['status' => 'confirmed']);
+        } else {
+            // Non-superadmin can only confirm today's sales
+            DailySale::whereDate('sale_date', today())
+                ->where('status', 'pending')
+                ->update(['status' => 'confirmed']);
+        }
 
         return redirect()->route('dashboard.daily_sales.index')
-            ->with('success', 'Today\'s sales confirmed successfully.');
+            ->with('success', 'Sales confirmed successfully.');
     }
 
     // عرض صفحة إضافة بيع يومي جديد
@@ -90,10 +106,11 @@ class DailySaleController extends Controller
                 'tax_rate' => $request->tax_rate[$index] ?? 0,
                 'total_tax' => $tax,
                 'sale_date' => $request->sale_date,
+                'status' => 'pending', // Ensure status is set
             ]);
         }
 
-        return response()->json(['success' => true, 'message' => 'sales added successfully']);
+        return response()->json(['success' => true, 'message' => 'Sales added successfully']);
     }
 
     // عرض تفاصيل بيع يومي معين
@@ -107,9 +124,11 @@ class DailySaleController extends Controller
     public function edit($id)
     {
         $dailySale = DailySale::findOrFail($id);
+        $user = Auth::user();
+        $isSuperAdmin = $user->hasRole('superadministrator'); // Adjust based on your role-checking method
 
-        // Prevent editing if confirmed
-        if ($dailySale->status === 'confirmed') {
+        // Allow superadmin to edit regardless of status
+        if (!$isSuperAdmin && $dailySale->status === 'confirmed') {
             return redirect()->route('dashboard.daily_sales.index')
                 ->with('error', 'Cannot edit confirmed sales.');
         }
@@ -122,9 +141,11 @@ class DailySaleController extends Controller
     public function update(Request $request, $id)
     {
         $dailySale = DailySale::findOrFail($id);
+        $user = Auth::user();
+        $isSuperAdmin = $user->hasRole('superadministrator'); // Adjust based on your role-checking method
 
-        // Prevent updating if confirmed
-        if ($dailySale->status === 'confirmed') {
+        // Allow superadmin to update regardless of status
+        if (!$isSuperAdmin && $dailySale->status === 'confirmed') {
             return redirect()->route('dashboard.daily_sales.index')
                 ->with('error', 'Cannot update confirmed sales.');
         }
@@ -134,10 +155,15 @@ class DailySaleController extends Controller
             'quantity' => 'required|integer|min:1',
             'total_price' => 'required|numeric|min:0',
             'is_taxable' => 'nullable|boolean',
-            'tax_rate' => 'nullable|numeric',
-            'total_tax' => 'nullable|numeric',
+            'tax_rate' => 'nullable|numeric|min:0|max:100',
+            'total_tax' => 'nullable|numeric|min:0',
             'sale_date' => 'required|date',
         ]);
+
+        $tax = 0;
+        if ($request->is_taxable && $request->tax_rate) {
+            $tax = ($request->total_price * $request->tax_rate) / 100;
+        }
 
         $dailySale->update([
             'sale_item_id' => $request->sale_item_id,
@@ -145,7 +171,7 @@ class DailySaleController extends Controller
             'total_price' => $request->total_price,
             'is_taxable' => $request->is_taxable,
             'tax_rate' => $request->tax_rate,
-            'total_tax' => $request->total_tax,
+            'total_tax' => $tax,
             'sale_date' => $request->sale_date,
         ]);
 
@@ -157,9 +183,11 @@ class DailySaleController extends Controller
     public function destroy($id)
     {
         $dailySale = DailySale::findOrFail($id);
+        $user = Auth::user();
+        $isSuperAdmin = $user->hasRole('superadministrator'); // Adjust based on your role-checking method
 
-        // Prevent deletion if confirmed
-        if ($dailySale->status === 'confirmed') {
+        // Allow superadmin to delete regardless of status
+        if (!$isSuperAdmin && $dailySale->status === 'confirmed') {
             return redirect()->route('dashboard.daily_sales.index')
                 ->with('error', 'Cannot delete confirmed sales.');
         }

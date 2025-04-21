@@ -284,6 +284,6 @@ return [
     'status' => 'الحالة',
     'confirmed' => 'تم التأكيد',
     'pending' => 'غير مؤكد',
-    'confirm_today_sales' => 'ترحيل مبيعات اليوم',
-    'confirm_today_purchases' => 'ترحيل مشتريات اليوم',
+    'confirm_today_sales' => 'ترحيل المبيعات ',
+    'confirm_today_purchases' => 'ترحيل المشتريات ',
 ];

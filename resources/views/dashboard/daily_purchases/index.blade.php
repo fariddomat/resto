@@ -8,13 +8,26 @@
                 ➕ @lang('site.add') @lang('site.purchase')
             </a>
 
-            <!-- Confirm Today’s Purchases Button -->
-            <form action="{{ route('dashboard.daily_purchases.confirm') }}" method="POST">
-                @csrf
-                <button type="submit" class="px-4 py-2 bg-green-500 text-white rounded shadow" onclick="return confirm(@lang('site.confirm_today_purchases')?)">
-                    ✅ @lang('site.confirm_today_purchases')
-                </button>
-            </form>
+            <!-- Confirm Purchases Button -->
+            @can('superadministrator') <!-- Adjust based on your role-checking method -->
+                <form action="{{ route('dashboard.daily_purchases.confirm') }}" method="POST">
+                    @csrf
+                    <!-- Pass filter values -->
+                    <input type="hidden" name="date" value="{{ request('date') }}">
+                    <input type="hidden" name="start_date" value="{{ request('start_date') }}">
+                    <input type="hidden" name="end_date" value="{{ request('end_date') }}">
+                    <button type="submit" class="px-4 py-2 bg-green-500 text-white rounded shadow" onclick="return confirm(@lang('site.confirm_filtered_purchases')?)">
+                        ✅ @lang('site.confirm_purchases')
+                    </button>
+                </form>
+            @else
+                <form action="{{ route('dashboard.daily_purchases.confirm') }}" method="POST">
+                    @csrf
+                    <button type="submit" class="px-4 py-2 bg-green-500 text-white rounded shadow" onclick="return confirm(@lang('site.confirm_today_purchases')?)">
+                        ✅ @lang('site.confirm_today_purchases')
+                    </button>
+                </form>
+            @endcan
         </div>
 
         <!-- Filter Form -->
@@ -40,7 +53,7 @@
                 <label for="category_id" class="block text-sm font-medium text-gray-700">@lang('site.category')</label>
                 <select id="category_id" name="category_id" class="border p-[0.7rem] rounded w-full">
                     <option value="">@lang('site.all_categories')</option>
-                    @foreach(\App\Models\PurchaseCategory::all() as $category) <!-- Adjust to your category model -->
+                    @foreach(\App\Models\PurchaseCategory::all() as $category)
                         <option value="{{ $category->id }}" {{ request('category_id') == $category->id ? 'selected' : '' }}>
                             {{ $category->name }}
                         </option>
@@ -60,8 +73,8 @@
             <x-table
                 :columns="['purchaseItem.name', 'quantity', 'total_price', 'purchase_date', 'status']"
                 :data="$dailyPurchases"
-                :edit="(request('date') === null && request('start_date') === null && request('end_date') === null) || request('date') === today()->toDateString()"
-                :delete="(request('date') === null && request('start_date') === null && request('end_date') === null) || request('date') === today()->toDateString()"
+                :edit="auth()->user()->hasRole('superadministrator') ? true : ((request('date') === null && request('start_date') === null && request('end_date') === null) || request('date') === today()->toDateString())"
+                :delete="auth()->user()->hasRole('superadministrator') ? true : ((request('date') === null && request('start_date') === null && request('end_date') === null) || request('date') === today()->toDateString())"
                 :routePrefix="'dashboard.daily_purchases'"
             />
 

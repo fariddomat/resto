@@ -28,6 +28,7 @@ use Illuminate\Support\Facades\Artisan;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
+
 Route::get('/', function () {
     return redirect()->route('dashboard');
 });
@@ -63,18 +64,23 @@ Route::prefix('dashboard')
             Route::resource('purchase_items', PurchaseItemController::class);
             Route::resource('daily_purchases', DailyPurchaseController::class);
 
-            Route::post('/daily-purchases/confirm', [DailyPurchaseController::class, 'confirmTodayPurchases'])
-            ->name('daily_purchases.confirm');
+            // Route::post('/daily-purchases/confirm', [DailyPurchaseController::class, 'confirmTodayPurchases'])
+            // ->name('daily_purchases.confirm');
+
+            Route::post('/daily-purchases/confirm', [DailyPurchaseController::class, 'confirmPurchases'])->name('daily_purchases.confirm');
+
             Route::resource('sale_categories', SaleCategoryController::class);
             Route::resource('sale_items', SaleItemController::class);
             Route::resource('daily_sales', DailySaleController::class);
-            Route::post('/daily-sales/confirm', [DailySaleController::class, 'confirmTodaySales'])
-            ->name('daily_sales.confirm');
+            // Route::post('/daily-sales/confirm', [DailySaleController::class, 'confirmTodaySales'])
+            // ->name('daily_sales.confirm');
+
+            Route::post('/daily-sales/confirm', [DailySaleController::class, 'confirmSales'])->name('daily_sales.confirm');
 
             Route::get('expenses', [PaymentController::class, 'expenses'])->name('expenses');
             Route::get('revenues', [PaymentController::class, 'revenues'])->name('revenues');
             Route::get('profits', [PaymentController::class, 'profits'])->name('profits');
             Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
-
-        });
+        }
+    );
 require __DIR__ . '/auth.php';
